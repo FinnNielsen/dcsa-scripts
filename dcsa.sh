@@ -1,5 +1,15 @@
 #!/usr/bin/env bash
 
+#
+# Simple script to quickly start the docker-comtainers in a dcsa repo
+# and initialize the database since the repos does not contain a proper
+# local-dev set up and control scripts to do this.
+#
+# Examples:
+#		dcsa.sh start
+#		dcsa.sh stop
+#		dcsa.sh stop start
+#
 
 if [ ! -f docker-compose.yml ]; then
 	echo -e "\e[0;31mno docker-compose.yml\e[0m\n"
