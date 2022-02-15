@@ -1,0 +1,19 @@
+version: '3.5'
+
+services:
+  #
+  # pgweb (simple ui for postgresql)
+  #
+    pgweb:
+        image: sosedoff/pgweb
+        container_name: dcsa-pgweb
+        restart: always
+        ports:
+            - "54321:8081"
+        environment:
+            - "DATABASE_URL=postgres://postgres:change_this_password@dcsa-test-db:5432/postgres?sslmode=disable"
+        links:
+            - dcsa-test-db:dcsa-test-db
+        depends_on:
+            - dcsa-test-db
+

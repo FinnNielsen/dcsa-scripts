@@ -11,6 +11,9 @@
 #		dcsa.sh stop start
 #
 
+scriptDir=$(dirname $(readlink -f "$0"))
+
+
 if [ ! -f docker-compose.yml ]; then
 	echo -e "\e[0;31mno docker-compose.yml\e[0m\n"
 	exit 1
@@ -23,7 +26,7 @@ while [[ $# -gt 0 ]]; do
 	case "$option" in
 		start)
 			echo -e "\e[0;34mdocker-compose up -d -V --build\e[0m\n"
-			docker-compose up -d -V --build
+			docker-compose -f docker-compose.yml -f $scriptDir/docker-compose.yml --env-file=$scriptDir/.env up -d -V --build
 
 			if [ -d "DCSA-Information-Model/datamodel/initdb.d" ]; then
 				sleep 2
@@ -37,7 +40,7 @@ while [[ $# -gt 0 ]]; do
 		;;
 		stop)
 			echo -e "\e[0;34mdocker-compose kill && docker-compose down\e[0m\n"
-			docker-compose kill && docker-compose down
+			docker-compose -f docker-compose.yml -f $scriptDir/docker-compose.yml kill && docker-compose -f docker-compose.yml -f $scriptDir/docker-compose.yml down
 		;;
 		#dbconnect)
 		#	#docker exec -it dcsa_db psql -h localhost -U postgres postgres
