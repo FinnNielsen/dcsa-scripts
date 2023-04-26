@@ -20,8 +20,10 @@ if [ ! -f docker-compose.yml ]; then
 fi
 
 pgwebArg="--profile pgweb"
+pgwebArgPrint="--profile pgweb"
 if ! $(grep pgweb docker-compose.yml > /dev/null 2>&1); then
 	pgwebArg="-f docker-compose.yml -f $scriptDir/docker-compose.yml"
+	pgwebArgPrint="-f docker-compose.yml -f \$scriptDir/docker-compose.yml"
 fi
 
 while [[ $# -gt 0 ]]; do
@@ -30,12 +32,12 @@ while [[ $# -gt 0 ]]; do
 
 	case "$option" in
 		start)
-			echo -e "\e[0;34mdocker compose up -d -V --build\e[0m\n"
+			echo -e "\n\e[0;32m> docker compose $pgwebArgPrint --env-file=\$scriptDir/.env up -d -V --build\e[0m\n"
 			docker compose $pgwebArg --env-file=$scriptDir/.env up -d -V --build
 
 		;;
 		stop)
-			echo -e "\e[0;34mdocker compose kill && docker-compose down\e[0m\n"
+			echo -e "\n\e[0;32m> docker compose $pgwebArgPrint kill && docker compose $pgwebArgPrint down\e[0m\n"
 			docker compose $pgwebArg kill && docker compose $pgwebArg down
 		;;
 		#dbconnect)
